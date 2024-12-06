@@ -17,7 +17,7 @@ body {
 
 .custom-card {
   height: 420px;
-  width: 420px;
+  width: 27%;
   border: 1px solid black;
   border-radius: 2px;
 }
