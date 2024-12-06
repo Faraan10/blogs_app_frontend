@@ -14,7 +14,7 @@ const Home = () => {
     newsData();
   }, []);
 
-  //   console.log(data?.articles);
+  console.log(data?.articles);
 
   return (
     <>
@@ -22,8 +22,20 @@ const Home = () => {
       <div className="container-fluid">
         <div className="row">
           {data?.articles?.map((article) => (
-            <div key={article.publishedAt}>
-              <h3>{article.author}</h3>
+            <div
+              className="col-sm-6 col-md-4 col-lg-3 custom-card"
+              key={article.publishedAt}
+            >
+              <img src={article.urlToImage} width="200px" />
+              <div className="card-body">
+                <h3>{article.title}</h3>
+                <p>{article.description}</p>
+                <p>Written by {article.author}</p>
+                <p>
+                  Published on{" "}
+                  {new Date(article.publishedAt).toLocaleDateString()}
+                </p>
+              </div>
             </div>
           ))}
         </div>
