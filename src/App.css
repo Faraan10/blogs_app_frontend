@@ -2,6 +2,17 @@ body {
   font-family: "Courier New", Courier, monospace;
 }
 
+.header {
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px;
+}
+
+.form-align {
+  margin: 20px;
+}
+
 .container-fluid {
   display: flex;
   flex-direction: column;
@@ -16,8 +27,75 @@ body {
 }
 
 .custom-card {
-  height: 420px;
-  width: 27%;
+  height: 500px;
+  width: 420px;
   border: 1px solid black;
   border-radius: 2px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: all 0.3s ease; /* Smooth animation */
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.custom-card:hover {
+  transform: scale(1.02); /* Increase the card size by 10% */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+  border-color: #3f51b5; /* Change the border color */
+  background-color: #f5f7ff; /* Subtle background color change */
+}
+
+.custom-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(63, 81, 181, 0.1); /* Subtle background color effect */
+  z-index: 0;
+}
+.article-image {
+  aspect-ratio: 3/2;
+  object-fit: contain;
+}
+
+.article-title {
+  font-weight: bold;
+  font-size: 20px;
+  margin: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.article-description {
+  font-size: 14px;
+  margin: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.article-author {
+  font-size: 14px;
+  margin: 10px 10px 0px 10px;
+}
+
+.article-author-span {
+  font-weight: bold;
+}
+
+.article-date {
+  font-size: 14px;
+  margin: 0px 10px 0px 10px;
+}
+
+.article-date-span {
+  font-weight: bold;
 }
