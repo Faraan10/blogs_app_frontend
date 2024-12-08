@@ -14,7 +14,7 @@ const Home = () => {
     newsData();
   }, []);
 
-  console.log(data?.articles);
+  console.log(data);
 
   return (
     <>
