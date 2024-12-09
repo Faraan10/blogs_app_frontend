@@ -4,7 +4,7 @@ const getData = async () => {
   const response = await axios({
     method: "GET",
     headers: { "Content-Type": "application/json" },
-    url: "http://localhost:5002/api/news",
+    url: "https://blogs-backend-1-i2ur.onrender.com/api/news",
   });
   return response.data;
 };
