@@ -5,18 +5,47 @@ import Spinner from "../components/Spinner";
 
 const Home = () => {
   const [data, setData] = useState();
+  const [constData, setConstData] = useState();
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [authors, setAuthors] = useState([]);
 
   const newsData = async () => {
     const response = await getData();
     setLoading(false);
     setData(response);
+    setConstData(response);
+    const uniqueAuthors = new Set();
+    response?.articles.forEach((art) => {
+      uniqueAuthors.add(art.author);
+    });
+    setAuthors([...uniqueAuthors]);
+    handleSort("Lastest");
   };
 
   useEffect(() => {
     newsData();
   }, []);
+
+  const handleSort = (sortOrder) => {
+    const sortedData = [...data.articles].sort((a, b) => {
+      const dateA = new Date(a.publishedAt);
+      const dateB = new Date(b.publishedAt);
+
+      return sortOrder === "Latest" ? dateB - dateA : dateA - dateB;
+    });
+    setData({ articles: sortedData });
+  };
+
+  const filterAuthor = (name) => {
+    if (name == "") {
+      setData(constData);
+    } else {
+      setData({
+        articles: constData?.articles.filter((data) => data.author == name),
+      });
+    }
+  };
 
   console.log(data);
 
@@ -25,12 +54,15 @@ const Home = () => {
       <h1 className="header">News Blogs</h1>
 
       <form className="max-w-md mx-auto form-align">
-        <label
-          htmlFor="default-search"
-          className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-        >
-          Search
-        </label>
+        <div style={{ display: "flex" }}>
+          <label
+            htmlFor="default-search"
+            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+          >
+            Search
+          </label>
+        </div>
+
         <div className="relative">
           <div className="absolute inset-y-0 start-0 flex items-center ps-2 pointer-events-none">
             <svg
@@ -60,6 +92,73 @@ const Home = () => {
           />
         </div>
       </form>
+
+      <div
+        className="filter-buttons"
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          gap: "20px",
+        }}
+      >
+        <button
+          id="dropdownDefaultButton"
+          data-dropdown-toggle="dropdown"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button"
+        >
+          Old - Recent
+          <svg
+            className="w-2.5 h-2.5 ms-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 6"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 4 4 4-4"
+            />
+          </svg>
+        </button>
+
+        <div
+          id="dropdown"
+          className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+        >
+          <ul
+            className="py-2 text-sm text-gray-700 dark:text-gray-200"
+            aria-labelledby="dropdownDefaultButton"
+          >
+            <li onClick={(e) => handleSort("Oldest")}>
+              <a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                Oldest First
+              </a>
+            </li>
+            <li onClick={(e) => handleSort("Latest")}>
+              <a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                Latest First
+              </a>
+            </li>
+          </ul>
+        </div>
+        <select
+          onChange={(e) => {
+            filterAuthor(e.target.value);
+          }}
+        >
+          <option value="">All</option>
+          {authors?.map((author, index) => (
+            <option key={index} value={author}>
+              {author}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="container-fluid">
         <div className="row">
